@@ -1,0 +1,50 @@
+{
+  "version": 2,
+  "name": "podcastify",
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ],
+  "functions": {
+    "pages/api/upload.ts": {
+      "maxDuration": 30
+    },
+    "pages/api/convert.ts": {
+      "maxDuration": 300
+    },
+    "pages/api/download/[jobId].ts": {
+      "maxDuration": 60
+    }
+  },
+  "env": {
+    "OPENAI_API_KEY": "@openai_api_key",
+    "GOOGLE_CLOUD_CREDENTIALS": "@google_cloud_credentials"
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}

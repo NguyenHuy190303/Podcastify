@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcastify - PDF to Audio Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎧 Podcastify</h1>
+            <p>Convert PDF books into high-quality audio podcasts using AI</p>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section id="upload-section" class="card">
+                <h2>📚 Upload PDF Book</h2>
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-content">
+                        <div class="upload-icon">📄</div>
+                        <p>Drag and drop your PDF file here, or click to browse</p>
+                        <input type="file" id="file-input" accept=".pdf" hidden>
+                        <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">
+                            Choose PDF File
+                        </button>
+                    </div>
+                </div>
+                <div id="file-info" class="file-info" style="display: none;">
+                    <h3>📖 Book Information</h3>
+                    <div id="book-metadata"></div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="card" style="display: none;">
+                <h2>⚙️ Conversion Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label for="tts-service">Text-to-Speech Service:</label>
+                        <select id="tts-service">
+                            <option value="openai">OpenAI TTS</option>
+                            <option value="google">Google Cloud TTS</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="voice-select">Voice:</label>
+                        <select id="voice-select">
+                            <option value="">Default Voice</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="speed-slider">Speech Speed:</label>
+                        <input type="range" id="speed-slider" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <span id="speed-value">1.0x</span>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label>Content Filtering:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="skip-toc" checked> Skip Table of Contents</label>
+                            <label><input type="checkbox" id="skip-acknowledgments" checked> Skip Acknowledgments</label>
+                            <label><input type="checkbox" id="skip-copyright" checked> Skip Copyright Pages</label>
+                            <label><input type="checkbox" id="skip-index" checked> Skip Index/Bibliography</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="start-conversion" class="btn btn-success">
+                    🎵 Start Conversion
+                </button>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress-section" class="card" style="display: none;">
+                <h2>🔄 Conversion Progress</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div id="progress-text" class="progress-text">Initializing...</div>
+                    <div id="progress-percentage" class="progress-percentage">0%</div>
+                </div>
+                <div id="progress-details" class="progress-details"></div>
+            </section>
+
+            <!-- Download Section -->
+            <section id="download-section" class="card" style="display: none;">
+                <h2>✅ Conversion Complete!</h2>
+                <div class="download-info">
+                    <p>Your audiobook has been successfully created.</p>
+                    <div class="download-actions">
+                        <button id="download-btn" class="btn btn-primary">
+                            📥 Download MP3
+                        </button>
+                        <button id="new-conversion" class="btn btn-secondary">
+                            🔄 Convert Another Book
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section id="error-section" class="card error-card" style="display: none;">
+                <h2>❌ Conversion Error</h2>
+                <div id="error-message" class="error-message"></div>
+                <button id="retry-conversion" class="btn btn-primary">
+                    🔄 Try Again
+                </button>
+            </section>
+        </main>
+
+        <footer>
+            <p>Powered by OpenAI and Google Cloud Text-to-Speech APIs</p>
+            <div class="status-indicator">
+                <span id="connection-status" class="status-dot"></span>
+                <span id="connection-text">Connecting...</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
