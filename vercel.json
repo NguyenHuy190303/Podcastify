@@ -1,18 +1,6 @@
 {
   "version": 2,
   "name": "podcastify",
-  "builds": [
-    {
-      "src": "next.config.js",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
-  ],
   "functions": {
     "pages/api/upload.ts": {
       "maxDuration": 30
